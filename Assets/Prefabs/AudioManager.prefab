@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6537760820237573456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6537760820237573457}
+  - component: {fileID: 6537760820237573458}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6537760820237573457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6537760820237573456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6537760820237573458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6537760820237573456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb95fe51d466306498d5e45b16073f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: EnemyOnHit
+    clip: {fileID: 8300000, guid: fab63c4a90870324faefa401e141ee3d, type: 3}
+    mixer: {fileID: -8112854335839576607, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 0.75
+    pitch: 1
+    spatialBlend: 0.236
+    priority: 122
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyOnDeath
+    clip: {fileID: 8300000, guid: ae88a6219639dc742a7c3d22af25fe6f, type: 3}
+    mixer: {fileID: 8893985689644243881, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 0.75
+    pitch: 1
+    spatialBlend: 0.273
+    priority: 53
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: ButtonHover
+    clip: {fileID: 8300000, guid: 3f24641b6d9831645849d5100bf84b7d, type: 3}
+    mixer: {fileID: 4328314243223989139, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    priority: 53
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: ff9cb051a9518fd4690e2b95e5681148, type: 3}
+    mixer: {fileID: -4936375964343519510, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 1.4
+    pitch: 1
+    spatialBlend: 0
+    priority: 53
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: JumpSound
+    clip: {fileID: 8300000, guid: f2bc91e563f5e0b49b9dbf8e7872a0c9, type: 3}
+    mixer: {fileID: 2862217908790502320, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 1.5
+    pitch: 1
+    spatialBlend: 0
+    priority: 1
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: LandSound
+    clip: {fileID: 8300000, guid: 2073cf74198c8fd4b91febd5a48da8f2, type: 3}
+    mixer: {fileID: 3433977470640444368, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 0.75
+    pitch: 1
+    spatialBlend: 0
+    priority: 1
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: TakeDamage
+    clip: {fileID: 8300000, guid: 94d54e5facaae5449b04cc94923ce014, type: 3}
+    mixer: {fileID: 8425555941940138994, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 0.75
+    pitch: 1
+    spatialBlend: 0
+    priority: 0
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyFire
+    clip: {fileID: 8300000, guid: a2b095a6a3683294387e90b358f60fa6, type: 3}
+    mixer: {fileID: -791716718720590850, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0.623
+    priority: 3
+    reverbZoneMix: 0.245
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyWalk
+    clip: {fileID: 8300000, guid: e762c7d4f0e343148976d062bd039460, type: 3}
+    mixer: {fileID: 3807809397862348471, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 0.75
+    pitch: 1
+    spatialBlend: 1
+    priority: 26
+    reverbZoneMix: 0.309
+    loop: 0
+    source: {fileID: 0}
+  - name: MenuMusic
+    clip: {fileID: 8300000, guid: 76242bb068d09e64c9436059a4f6ce88, type: 3}
+    mixer: {fileID: 8694339350928679213, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd, type: 2}
+    volume: 0.8
+    pitch: 1
+    spatialBlend: 0
+    priority: 0
+    reverbZoneMix: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: GamePlayMusic
+    clip: {fileID: 8300000, guid: 2cd14801c8babd349b247c51ee14d7f1, type: 3}
+    mixer: {fileID: -4145828143735784025, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    priority: 2
+    reverbZoneMix: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: Shotgun
+    clip: {fileID: 8300000, guid: 2cadd5e2e271d8941b52c8368db51db6, type: 3}
+    mixer: {fileID: -3718208951023981482, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    priority: 0
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: AmmoHealth
+    clip: {fileID: 8300000, guid: 47797a450cadf174faecefd687420654, type: 3}
+    mixer: {fileID: -5674511316148517424, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 0.75
+    pitch: 2
+    spatialBlend: 0
+    priority: 1
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerDeath
+    clip: {fileID: 8300000, guid: ae88a6219639dc742a7c3d22af25fe6f, type: 3}
+    mixer: {fileID: -4493343890431722062, guid: 2ff0a4d67cd21b14eb56c27a49e64dbd,
+      type: 2}
+    volume: 1
+    pitch: 0.5
+    spatialBlend: 0
+    priority: 0
+    reverbZoneMix: 0
+    loop: 0
+    source: {fileID: 0}
