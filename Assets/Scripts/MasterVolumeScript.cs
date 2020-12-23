@@ -15,16 +15,12 @@ public class MasterVolumeScript : MonoBehaviour
     string music = "MusicVolumeSetting";
     string sfx = "SfxVolumeSetting";
 
-
-
-
     private void Start()
     {
         masterVolume.value = PlayerPrefs.GetFloat(master);
         sfxVolume.value = PlayerPrefs.GetFloat(sfx);
         musicVolume.value = PlayerPrefs.GetFloat(music);
     }
-
     
     public void SetSoundMaster(float soundLevel)
     {
@@ -33,21 +29,16 @@ public class MasterVolumeScript : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    
-
     public void SetSoundMusic(float soundLevel)
     {
         masterMixer.SetFloat("MusicVolume", soundLevel);
         PlayerPrefs.SetFloat(music, soundLevel);
         PlayerPrefs.Save();
     }
-
     public void SetSoundSFX(float soundLevel)
     {
         masterMixer.SetFloat("SFXVolume", soundLevel);
         PlayerPrefs.SetFloat(sfx, soundLevel);
         PlayerPrefs.Save();
     }
-
-   
 }

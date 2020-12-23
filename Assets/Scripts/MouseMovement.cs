@@ -5,61 +5,35 @@ using UnityEngine.UI;
 
 public class MouseMovement : MonoBehaviour
 {
-    public Slider mouseSensitivitySlider;
-    public float mouseSensitivity = 100f;
-    public GameObject gameOver;
-    public Transform playerbody;
+    [SerializeField] private float mouseSensitivity = 100f;
+    private Transform cameraTransform;
+    private float xRotation = 0f;
+    private string mouseSettings = "MouseSensitivitySetting";
 
-    float xRotation = 0f;
-    string mouseSettings = "MouseSensitivitySetting";
+    private void Awake() => cameraTransform = Camera.main.transform;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        mouseSensitivitySlider.value = PlayerPrefs.GetFloat(mouseSettings);
-        mouseSensitivity = mouseSensitivitySlider.value;
+        mouseSensitivity = PlayerPrefs.GetFloat(mouseSettings);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        gameOver = GameObject.Find("GameOver");
     }
-
-    // Update is called once per frame
+   
     void Update()
     {
         if (GameManager.instance.gamePlaying)
         {
             MouseLook();
-            
         }
-        //if(gameOver.activeInHierarchy == true)
-        //{
-        //    Cursor.lockState = CursorLockMode.Confined;        }
-   
-
-    }
-
-    public void MouseSensitivityChange()
-    {
-        mouseSensitivity = mouseSensitivitySlider.value;
-        PlayerPrefs.SetFloat(mouseSettings, mouseSensitivitySlider.value);
-        PlayerPrefs.Save();
-
     }
 
     private void MouseLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime);
+        
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
         xRotation -= mouseY;
-
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
-
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerbody.Rotate(Vector3.up * mouseX);
-
+        xRotation = Mathf.Clamp(xRotation, -85, 85);
+        cameraTransform.localEulerAngles = Vector3.right * xRotation;
     }
-
-
 }

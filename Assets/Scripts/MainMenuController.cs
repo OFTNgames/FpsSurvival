@@ -7,12 +7,14 @@ public class MainMenuController : MonoBehaviour
 {
     public GameObject mainScreen, aboutScreen, optionScreen;
     public Slider mouseSensitivitySlider;
+    [SerializeField] private Text _bestScore;
     string mouseSettings = "MouseSensitivitySetting";
 
     public void Start()
     {
         AudioManager.instance.Play("MenuMusic");
         mouseSensitivitySlider.value = PlayerPrefs.GetFloat(mouseSettings);
+        _bestScore.text = "BEST SCORE: " + PlayerPrefs.GetInt("BestScore").ToString();
     }
 
     public void HoverButton()
@@ -38,9 +40,7 @@ public class MainMenuController : MonoBehaviour
         AudioManager.instance.Play("ButtonClick");
         mainScreen.SetActive(false);
         aboutScreen.SetActive(true);
-
     }
-
     
     public void OnButtonBack()
     {
@@ -48,7 +48,6 @@ public class MainMenuController : MonoBehaviour
         mainScreen.SetActive(true);
         aboutScreen.SetActive(false);
         optionScreen.SetActive(false);
-
     }
        
     public void OnButtonQuit()
@@ -59,10 +58,7 @@ public class MainMenuController : MonoBehaviour
 
     public void MouseSensitivityChange()
     {
-        
         PlayerPrefs.SetFloat(mouseSettings, mouseSensitivitySlider.value);
         PlayerPrefs.Save();
-
     }
-
 }

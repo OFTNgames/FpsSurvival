@@ -8,15 +8,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject gameOverPanel, hudContainer, pauseMenu, optionsMenu;
+    [SerializeField] private Text _bestScore;
     public float restartDelay = 2f;
-    [SerializeField]
-    float gameOverDelay = 2.5f;
+    
+    [SerializeField]float gameOverDelay = 2.5f;
+    
     public bool gameHasEnded { get; private set; }
     public bool gamePlaying { get; private set; }
-    public int enemiesActive;
-    //private float startTime;
-
-
 
     private void Start()
     {
@@ -25,41 +23,36 @@ public class GameManager : MonoBehaviour
         PauseMenu.GameIsPaused = false;
         Time.timeScale = 1f;
         AudioManager.instance.Play("GamePlayMusic");
-        //gameHasEnded = false;
     }
 
     public void BeginGame()
     {
         gamePlaying = true;
-        //startTime = Time.time;
         TimerController.instance.BeginTimer();
-        Debug.Log("GameStart");        
     }
-
-    public void Update()
-    {
-       // enemiesActive = GameObject.FindGameObjectsWithTag"".Count
-    }
-
 
     public void GameOver()
     {
-       // if (gameHasEnded == false && gamePlaying == true)
        if (gamePlaying == true)
-        {
-            //gameHasEnded = true;
-            gamePlaying = false;
-            Debug.Log("GAME OVER");
-            Invoke("ShowGameOverScreen", gameOverDelay);
-            //Invoke("Restart", restartDelay);
-        }
-       
+       {
+           gamePlaying = false;
+           Invoke("ShowGameOverScreen", gameOverDelay);
+       }
     }
 
     private void ShowGameOverScreen()
     {
         TimerController.instance.EndTimer();
         KillcounterController.instance.PrintEndGameScore();
+        if(KillcounterController.instance.numberkilled > PlayerPrefs.GetInt("BestScore"))
+        {
+            PlayerPrefs.SetInt("BestScore", KillcounterController.instance.numberkilled);
+            _bestScore.text = "BEST SCORE: " + KillcounterController.instance.numberkilled.ToString() + "\nNEW RECORD!";
+        }
+        else
+        {
+            _bestScore.text = "BEST SCORE: " + PlayerPrefs.GetInt("BestScore").ToString();
+        }
         gameOverPanel.SetActive(true);
         hudContainer.SetActive(false);
         AudioManager.instance.StopPlaying("GamePlayMusic");
@@ -85,7 +78,6 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.Play("ButtonClick");
         optionsMenu.SetActive(false);
         pauseMenu.SetActive(true);
-
     }
 
     public void OnButtonRestart()
@@ -95,9 +87,7 @@ public class GameManager : MonoBehaviour
         PauseMenu.GameIsPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
     }
-
     
     public void OnButtonMainMenu()
     {
@@ -105,9 +95,5 @@ public class GameManager : MonoBehaviour
         PauseMenu.GameIsPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
-
     }
-
-   
-
 }

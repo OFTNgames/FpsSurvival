@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
     public Sound[] sounds;
-
     public static AudioManager instance;
     
     void Awake()
@@ -36,7 +34,6 @@ public class AudioManager : MonoBehaviour
             s.source.priority = s.priority;
             s.source.reverbZoneMix = s.reverbZoneMix;
             s.source.outputAudioMixerGroup = s.mixer;
-
         }
     }
 

@@ -8,7 +8,7 @@ public class KillcounterController : MonoBehaviour
     public static KillcounterController instance;
     public GameObject gameOverPanel;
     public Text killCounter;
-    private int numberkilled;
+    public int numberkilled { get; private set; }
 
     private void Awake()
     {
@@ -21,11 +21,9 @@ public class KillcounterController : MonoBehaviour
         string killCountStr = "Score: " + numberkilled.ToString("0000");
         killCounter.text = killCountStr;
         numberkilled = 0;
-
     }
 
     //Call from elsewhere
-
     //use
     //KillcounterController.instance.IncreaseKillCount();
     public void IncreaseKillCount()

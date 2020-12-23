@@ -35,39 +35,53 @@ public class GunsAmmo : MonoBehaviour
     private bool zoomingIn = false;
     public float zoomSpeed = 1f;
     
-
     private float nextTimeToFire1 = 0f;
     private float nextTimeToFire2 = 0f;
     private AudioSource gunSound;
 
-    private void Start()
-    {
-        gunSound = GetComponent<AudioSource>();
-    }
+    private void Awake() => gunSound = GetComponent<AudioSource>();
 
-
-    // Update is called once per frame
     void Update()
     {
         if (GameManager.instance.gamePlaying && PauseMenu.GameIsPaused == false)        
         {
             FireInput();
+            AimDownSights();
+        }
+    }
+
+    private void FireInput() 
+    {
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire1)
+        {
+            nextTimeToFire1 = Time.time + 1f / fireRate1;
+            gunSound.Play();
+            Shoot1();
         }
 
+        if (Input.GetMouseButtonDown(2) && Time.time >= nextTimeToFire2 && ammo > 0)
+        {
+            nextTimeToFire2 = Time.time + 1f / fireRate2;
+            Shoot2();
+        }
+        ammoDisplay.text = ammo.ToString();
+    }
+
+    private void AimDownSights()
+    {
         if (Input.GetButton("Fire2"))
         {
             if (zoomingIn == false)
-            {                
+            {
                 fireRate1 = 10f;
-                zoomingIn = true;              
+                zoomingIn = true;
             }
         }
         else
-        {        
+        {
             fireRate1 = 5f;
-            zoomingIn = false;          
+            zoomingIn = false;
         }
-
         if (zoomingIn)
         {
             fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, fovMin, zoomSpeed * Time.deltaTime);
@@ -76,35 +90,7 @@ public class GunsAmmo : MonoBehaviour
         {
             fpsCam.fieldOfView = Mathf.Lerp(fpsCam.fieldOfView, fovMax, zoomSpeed * Time.deltaTime);
         }
-
-
     }
-
-
-        private void FireInput() 
-        {
-            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire1)
-            {
-                nextTimeToFire1 = Time.time + 1f / fireRate1;
-
-                gunSound.Play();
-                Shoot1();
-
-            }
-
-            if (Input.GetMouseButtonDown(2) && Time.time >= nextTimeToFire2 && ammo > 0)
-            {
-                nextTimeToFire2 = Time.time + 1f / fireRate2;
-                Shoot2();
-            }
-
-            ammoDisplay.text = ammo.ToString();
-                   
-               
-        }
-
-
-    
 
     void Shoot1 ()
     {
@@ -118,21 +104,18 @@ public class GunsAmmo : MonoBehaviour
         tBloomN.Normalize();
 
         RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, tBloomN, out hit, range,canBeShot))
+        if (Physics.Raycast(rayOrigin, tBloomN, out hit, range, canBeShot))
         {
-            Debug.Log(hit.transform.name);
+           var target = hit.transform.GetComponent<ICanTakeDamage>();
+           if(target != null) 
+           {
+                target.TakeDamage(damage);
+           }
 
-            EnemyDamage target = hit.transform.GetComponent<EnemyDamage>();
-            if(target != null) 
-            {
-                target.EnemyTakeDamage(damage);
-            }
-
-            if (hit.rigidbody != null) 
-            {
-                hit.rigidbody.AddForce(-hit.normal * hitforce);
-            }
-
+           if (hit.rigidbody != null) 
+           {
+               hit.rigidbody.AddForce(-hit.normal * hitforce);
+           }
             
            GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
            impactGo.GetComponent<ParticleSystem>().Play();
@@ -143,20 +126,13 @@ public class GunsAmmo : MonoBehaviour
                 GameObject bulletHole = Instantiate(shotgunBulletHole, hit.point, Quaternion.LookRotation(hit.normal * 0.001f));
                 Destroy(bulletHole, 4f);
            }
-
         }
-
     }
 
     void Shoot2() 
     {
-        //Decrease Ammo on fire
         ammo--;
-
-        //Play Sound effect
         AudioManager.instance.Play("Shotgun");
-        
-        //play muzzle flash effect
         shotgunFlash.Play();
         Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
 
@@ -170,16 +146,22 @@ public class GunsAmmo : MonoBehaviour
             tBloom -= fpsCam.transform.position;
             tBloom.Normalize();
 
-            //Rays to detect hit
-            RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, tBloom, out hit, range,canBeShot))
-            {
-                Debug.Log(hit.transform.name);
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(fpsCam.transform.position, tBloom, range, canBeShot);
 
-                EnemyDamage target = hit.transform.GetComponent<EnemyDamage>();
+            for (int x = 0; x < hits.Length; x++)
+            {
+                RaycastHit hit = hits[x];
+
+                var target = hit.transform.GetComponent<ICanTakeDamage>();
                 if (target != null)
                 {
-                    target.EnemyTakeDamage(damage2);
+                    target.TakeDamage(damage2);
+                }
+
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * hitforce);
                 }
 
                 //create bullet holes
@@ -190,13 +172,31 @@ public class GunsAmmo : MonoBehaviour
                 }
             }
 
-            
+            /*
+            //Rays to detect hit
+            RaycastHit hit;
+            if (Physics.Raycast(fpsCam.transform.position, tBloom, out hit, range, canBeShot))
+            {
+                var target = hit.transform.GetComponent<ICanTakeDamage>();
+                if (target != null)
+                {
+                    target.TakeDamage(damage2);
+                }
+                
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * hitforce);
+                }
 
+                //create bullet holes
+                if (hit.collider.tag == "Ground")
+                {
+                    GameObject bulletHole = Instantiate(shotgunBulletHole, hit.point, Quaternion.LookRotation(hit.normal * 0.001f));
+                    Destroy(bulletHole, 4f);
+                }
+            }
+            */
         }
     }
-
-
-
-
 }
 

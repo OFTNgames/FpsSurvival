@@ -6,10 +6,8 @@ public class BulletPool : MonoBehaviour
 {
     public static BulletPool bulletPoolInstance;
 
-    [SerializeField]
-    private GameObject pooledBullet;
+    [SerializeField] private GameObject pooledBullet;
     private bool notEnoughBulletsInPool = true;
-
     private List<GameObject> bullets;
 
     private void Awake() 
@@ -17,11 +15,9 @@ public class BulletPool : MonoBehaviour
         bulletPoolInstance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         bullets = new List<GameObject>();
-
     }
 
     public GameObject GetBullet() 
@@ -33,7 +29,6 @@ public class BulletPool : MonoBehaviour
                 if (!bullets[i].activeInHierarchy)
                 {
                     return bullets[i];
-
                 }
             }      
        }
@@ -45,14 +40,6 @@ public class BulletPool : MonoBehaviour
             bullets.Add(bul);
             return bul;
        }
-
-        return null;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+       return null;
     }
 }

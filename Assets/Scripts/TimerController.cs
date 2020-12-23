@@ -30,8 +30,6 @@ public class TimerController : MonoBehaviour
     {
         timerGoing = true;
         elapsedTime = 0f;
-        Debug.Log("Timer Start");
-
         StartCoroutine(UpdateTimer());
     }
 

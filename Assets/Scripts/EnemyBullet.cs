@@ -2,36 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour, ICanTakeDamage
 {
     private Vector3 moveDirection;
     private AudioSource fire;
 
-    [SerializeField]
-    private float moveSpeed = 5f;
-    [SerializeField]
-    private float timeAlive = 3f;
-    Transform target;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float timeAlive = 3f;
+    private Transform target;
     public int damage = 20;
-
 
     private void OnEnable()
     {
-        //AudioManager.instance.Play("EnemyFire");
         fire = GetComponent<AudioSource>();
         fire.Play();
-        Invoke("Destroy", timeAlive);
+        Invoke("Deactivate", timeAlive);
         target = PlayerManager.instance.player.transform;
-        
     }
-
      
     void Update()
     {              
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-            
     }
-    
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -43,32 +35,16 @@ public class EnemyBullet : MonoBehaviour
 
         else if (other.gameObject.tag == "Ground")
         {
-            Debug.Log("Hit Ground");
-            Destroy();
+            Deactivate();
         }
-
     }
-
-   
-
-  // void OnCollisionEnter(Collision col)
-   // {
-        
-      //  if (col.gameObject.tag == "Ground")
-      //  {
-     //       Debug.Log("Hit Ground");
-          //  Destroy();
-      //  }
-  // }
-
 
     public void SetMoveDirection(Vector3 dir) 
     {
         moveDirection = dir;
-        
     }
 
-    private void Destroy()
+    private void Deactivate()
     {
         gameObject.SetActive(false);  
     }
@@ -78,4 +54,8 @@ public class EnemyBullet : MonoBehaviour
         CancelInvoke();
     }
 
+    public void TakeDamage(float amount)
+    {
+        Deactivate();
+    }
 }
