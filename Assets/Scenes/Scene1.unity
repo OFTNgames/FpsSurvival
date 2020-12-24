@@ -70601,12 +70601,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xPos: 0
   zPos: 0
-  enemyCount: 0
   enemySpawnCap: 4
   spawnRate: 15
-  pooledEnemy: {fileID: 8256507390507205916, guid: ae70b9e34ba420049a8cb71987b1d1f3,
+  enemyPrefab: {fileID: 8256507390507205916, guid: ae70b9e34ba420049a8cb71987b1d1f3,
     type: 3}
-  enemy: []
+  enemyCount: 0
 --- !u!1 &1278461303
 GameObject:
   m_ObjectHideFlags: 0
